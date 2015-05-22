@@ -1,0 +1,211 @@
+#+SETUPFILE: setup.org
+
+* Contents                                                         :toc_3_gh:
+ - [[#namespace-thingmathmacros][Namespace: thi.ng.math.macros]]
+         - [[#expression-macro-builders][Expression macro builders]]
+         - [[#actual-definition-of-maths-operations][Actual definition of maths operations]]
+         - [[#binary-operations][Binary operations]]
+         - [[#interpolation][Interpolation]]
+         - [[#min--max][Min / max]]
+     - [[#complete-namespace-definition][Complete namespace definition]]
+
+* Namespace: thi.ng.math.macros
+
+This name space provides basic math expressions as macros to produce
+inline expanded, nested expressions to create more legible source code
+for involved maths and to avoid extraneous =reduce= calls caused by
+the higher arity versions of Clojure's built-in maths functions.
+
+The macros are useful to simplify code for many geometry & matrix
+operations and are defined for both Clojure & ClojureScript.
+
+Because the ns only contains macros, importing it into a user ns (in a
+mixed CLJ/CLJS project) will require a similar approach as this one:
+
+#+BEGIN_SRC clojure
+  (ns user
+    #?(:clj (:require [thi.ng.math.macros :as mm])
+       :cljs (:require-macros [thi.ng.math.macros :as mm])))
+#+END_SRC
+
+The following maths functions are currently implemented and are
+especially useful (more legible and faster) for higher arities (up to 8):
+
+  | *fn*      | *description*                                              | *min arity* | *max arity* |
+  |-----------+------------------------------------------------------------+-------------+-------------|
+  | =add=     | like clj =+=                                               |           2 |           8 |
+  | =sub=     | like clj =-=                                               |           2 |           8 |
+  | =mul=     | like clj =*=                                               |           2 |           8 |
+  | =div=     | like clj =/=                                               |           2 |           8 |
+  | =madd=    | add pairwise multiplies                                    |           3 |           8 |
+  | =msub=    | subtract pairwise multiplies                               |           3 |           8 |
+  | =addm=    | product of pairwise sums                                   |           3 |           8 |
+  | =subm=    | product of pairwise subtracts                              |           3 |           8 |
+  | =adddiv=  | division of pairwise sums                                  |           3 |           8 |
+  | =subdiv=  | division of pairwise subtracts                             |           3 |           8 |
+  | =maddsub= | like =madd=, but last arg or pair is subtracted as product |           4 |           8 |
+  | =addmsub= | like =addm=, but last arg or pair is subtracted as product |           4 |           8 |
+  | =msubadd= | like =msub=, but last arg or pair is added as product      |           4 |           8 |
+  | =submadd= | like =subm=, but last arg or pair is added as product      |           4 |           8 |
+
+*** Expression macro builders
+
+#+BEGIN_SRC clojure :noweb-ref builders
+  (defmacro defmathop
+    "Constructs macro to build inlined nested expressions which when
+    call will apply f successively to all args. Supports arities 2-8."
+    [name f]
+    `(defmacro ~name
+       ([a# b#]
+          `(~~f ~a# ~b#))
+       ([a# b# c#]
+          `(~~f (~~f ~a# ~b#) ~c#))
+       ([a# b# c# d#]
+          `(~~f (~~f (~~f ~a# ~b#) ~c#) ~d#))
+       ([a# b# c# d# e#]
+          `(~~f (~~f (~~f (~~f ~a# ~b#) ~c#) ~d#) ~e#))
+       ([a# b# c# d# e# f#]
+          `(~~f (~~f (~~f (~~f (~~f ~a# ~b#) ~c#) ~d#) ~e#) ~f#))
+       ([a# b# c# d# e# f# g#]
+          `(~~f (~~f (~~f (~~f (~~f (~~f ~a# ~b#) ~c#) ~d#) ~e#) ~f#) ~g#))
+       ([a# b# c# d# e# f# g# h#]
+          `(~~f (~~f (~~f (~~f (~~f (~~f (~~f ~a# ~b#) ~c#) ~d#) ~e#) ~f#) ~g#) ~h#))))
+  
+  (defmacro defmathop2
+    "Constructs macro to build inlined nested expressions which when
+    call will apply f to inner pairs and f2 to combine results."
+    [name f f2]
+    `(defmacro ~name
+       ([a# b# c#]
+          `(~~f2 (~~f ~a# ~b#) ~c#))
+       ([a# b# c# d#]
+          `(~~f2 (~~f ~a# ~b#) (~~f ~c# ~d#)))
+       ([a# b# c# d# e#]
+          `(~~f2 (~~f2 (~~f ~a# ~b#) (~~f ~c# ~d#)) ~e#))
+       ([a# b# c# d# e# f#]
+          `(~~f2 (~~f2 (~~f ~a# ~b#) (~~f ~c# ~d#)) (~~f ~e# ~f#)))
+       ([a# b# c# d# e# f# g#]
+          `(~~f2 (~~f2 (~~f2 (~~f ~a# ~b#) (~~f ~c# ~d#)) (~~f ~e# ~f#)) ~g#))
+       ([a# b# c# d# e# f# g# h#]
+          `(~~f2 (~~f2 (~~f2 (~~f ~a# ~b#) (~~f ~c# ~d#)) (~~f ~e# ~f#)) (~~f ~g# ~h#)))))
+  
+  (defmacro defmathop3
+    "Takes f, f2 & f3 as syntax-quoted symbols. Constructs a macro which
+    when called, applies f to all but the last 1 or 2 args. The
+    remaining arg(s) are combined with the first result using f2.
+    Furthermore, for arities 6 and 8, f3 is first applied to the last
+    two args are before the final application of f2. For example:
+  
+        (defmathop* maddsub `madd `- `*)
+        (maddsub 2 3 4 5) => (- (madd 2 3 4) 5)
+        (maddsub 2 3 4 5 6) => (- (madd 2 3 4) (* 5 6))"
+    [name f f2 f3]
+    `(defmacro ~name
+       ([a# b# c# d#]
+          `(~~f2 (~~f ~a# ~b# ~c#) ~d#))
+       ([a# b# c# d# e#]
+          `(~~f2 (~~f ~a# ~b# ~c# ~d#) ~e#))
+       ([a# b# c# d# e# f#]
+          `(~~f2 (~~f ~a# ~b# ~c# ~d#) (~~f3 ~e# ~f#)))
+       ([a# b# c# d# e# f# g#]
+          `(~~f2 (~~f ~a# ~b# ~c# ~d# ~e# ~f#) ~g#))
+       ([a# b# c# d# e# f# g# h#]
+          `(~~f2 (~~f ~a# ~b# ~c# ~d# ~e# ~f#) (~~f3 ~g# ~h#)))))
+#+END_SRC
+
+*** Actual definition of maths operations
+
+#+BEGIN_SRC clojure :noweb-ref ops
+  (defmathop add `+)
+  (defmathop sub `-)
+  (defmathop mul `*)
+  (defmathop div `/)
+  (defmathop2 madd `* `+)
+  (defmathop2 msub `* `-)
+  (defmathop2 addm `+ `*)
+  (defmathop2 subm `- `*)
+  (defmathop2 adddiv `+ `/)
+  (defmathop2 subdiv `- `/)
+  (defmathop3 maddsub `madd `- `*)
+  (defmathop3 addmsub `addm `- `*)
+  (defmathop3 msubadd `msub `+ `*)
+  (defmathop3 submadd `subm `+ `*)
+#+END_SRC
+
+*** Binary operations
+
+#+BEGIN_SRC clojure :noweb-ref bin-ops
+  (defmacro if*
+    "Returns y if x > 0, else 0"
+    [pred x y] `(if (~pred ~x) ~y 0))
+  
+  (defmacro bitmask
+    "Constructs a bit mask from given values & predicate fn applied to
+    each. If pred returns truthy value the value's related bit is set.
+    Bit values start at 1 and double for successive args (max 8)."
+    ([pred a]
+       `(if* ~pred ~a 0x01))
+    ([pred a b]
+       `(bit-or (bitmask ~pred ~a) (if* ~pred ~b 0x02)))
+    ([pred a b c]
+       `(bit-or (bitmask ~pred ~a ~b) (if* ~pred ~c 0x04)))
+    ([pred a b c d]
+       `(bit-or (bitmask ~pred ~a ~b ~c) (if* ~pred ~d 0x08)))
+    ([pred a b c d e]
+       `(bit-or (bitmask ~pred ~a ~b ~c ~d) (if* ~pred ~e 0x10)))
+    ([pred a b c d e f]
+       `(bit-or (bitmask ~pred ~a ~b ~c ~d ~e) (if* ~pred ~f 0x20)))
+    ([pred a b c d e f g]
+       `(bit-or (bitmask ~pred ~a ~b ~c ~d ~e ~f) (if* ~pred ~g 0x40)))
+    ([pred a b c d e f g h]
+       `(bit-or (bitmask ~pred ~a ~b ~c ~d ~e ~f ~g) (if* ~pred ~h 0x80))))
+#+END_SRC
+
+*** Interpolation
+
+#+BEGIN_SRC clojure :noweb-ref mix
+  (defmacro mix
+    "Linear, bi-linear & tri-linear interpolation"
+    ([a b t] `(let [a# ~a] (submadd ~b a# ~t a#)))
+    ([a b c d u v] `(mix (mix ~a ~b ~u) (mix ~c ~d ~u) ~v))
+    ([a b c d e f g h u v w] `(mix (mix ~a ~b ~c ~d ~u ~v) (mix ~e ~f ~g ~h ~u ~v) ~w)))
+#+END_SRC
+
+*** Min / max
+
+#+BEGIN_SRC clojure :noweb-ref minmax
+  (defmacro min
+    ([a b] `(let [a# ~a b# ~b] (if (<= a# b#) a# b#)))
+    ([a b c] `(min (min ~a ~b) ~c))
+    ([a b c d] `(min (min (min ~a ~b) ~c) ~d))
+    ([a b c d e] `(min (min (min (min ~a ~b) ~c) ~d) ~e))
+    ([a b c d e f] `(min (min (min (min (min ~a ~b) ~c) ~d) ~e) ~f))
+    ([a b c d e f g] `(min (min (min (min (min (min ~a ~b) ~c) ~d) ~e) ~f) ~g))
+    ([a b c d e f g h] `(min (min (min (min (min (min (min ~a ~b) ~c) ~d) ~e) ~f) ~g) ~h)))
+
+  (defmacro max
+    ([a b] `(let [a# ~a b# ~b] (if (>= a# b#) a# b#)))
+    ([a b c] `(max (max ~a ~b) ~c))
+    ([a b c d] `(max (max (max ~a ~b) ~c) ~d))
+    ([a b c d e] `(max (max (max (max ~a ~b) ~c) ~d) ~e))
+    ([a b c d e f] `(max (max (max (max (max ~a ~b) ~c) ~d) ~e) ~f))
+    ([a b c d e f g] `(max (max (max (max (max (max ~a ~b) ~c) ~d) ~e) ~f) ~g))
+    ([a b c d e f g h] `(max (max (max (max (max (max (max ~a ~b) ~c) ~d) ~e) ~f) ~g) ~h)))
+#+END_SRC
+
+** Complete namespace definition
+
+#+BEGIN_SRC clojure :tangle ../babel/src/thi/ng/math/macros.clj :noweb yes :mkdirp yes :padline no
+  (ns thi.ng.math.macros
+    (:refer-clojure :exclude [min max]))
+
+  <<builders>>
+
+  <<ops>>
+
+  <<bin-ops>>
+
+  <<mix>>
+
+  <<minmax>>
+#+END_SRC

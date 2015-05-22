@@ -1,0 +1,236 @@
+#+SETUPFILE: ./setup.org
+#+TITLE: thi.ng/math
+#+AUTHOR: Karsten Schmidt
+#+EMAIL: k@thi.ng
+
+* Contents                                                         :toc_3_gh:
+ - [[#about-the-project][About the project]]
+     - [[#description][Description]]
+ - [[#namespaces][Namespaces]]
+ - [[#tests][Tests]]
+ - [[#project-definition][Project definition]]
+     - [[#injected-properties][Injected properties]]
+     - [[#dependencies][Dependencies]]
+         - [[#runtime][Runtime]]
+         - [[#development][Development]]
+     - [[#leiningen-coordinates][Leiningen coordinates]]
+     - [[#building-this-project][Building this project]]
+         - [[#testing][Testing]]
+         - [[#working-with-the-repl][Working with the REPL]]
+     - [[#leiningen-project-file][Leiningen project file]]
+     - [[#clojurescript-html-harness][ClojureScript HTML harness]]
+     - [[#accessing-library-version-during-runtime][Accessing library version during runtime]]
+         - [[#version-namespace][Version namespace]]
+     - [[#release-history][Release history]]
+     - [[#contributors][Contributors]]
+     - [[#license][License]]
+
+* About the project
+
+** Description
+
+A small library providing a Clojure/Clojurescript compatible
+collection of basic math functions, as well as macros to produce
+inline expanded, nested expressions to create more legible source code
+for involved maths and to avoid extraneous =reduce= calls caused by
+the higher arity versions of Clojure's built-in maths functions.
+
+The macros are useful to simplify code for many geometry & matrix
+operations and are defined for both Clojure & ClojureScript.
+
+This library is the result of a thi.ng projectwide restructuring /
+dissolving of the [[http://thi.ng/common][thi.ng/common]] and [[http://thi.ng/macromath][thi.ng/macromath]] libraries.
+
+*Note:* This library relies on the new conditional reader syntax of
+recent Clojure & Clojurescript versions and therefore is *not
+compatible with Clojure versions < 1.7.0*...
+
+* Namespaces
+
+- [[./core.org][thi.ng.math.core]]
+- [[./macros.org][thi.ng.math.macros]]
+- [[./simplexnoise.org][thi.ng.math.simplexnoise]]
+
+* Tests
+
+- [[../test/core.org][thi.ng.math.test.core]]
+- [[../test/macros.org][thi.ng.math.test.macros]]
+
+* Project definition
+
+** Injected properties                                             :noexport:
+
+#+BEGIN_SRC clojure :noweb-ref version
+0.1.0
+#+END_SRC
+#+BEGIN_SRC clojure :exports none :noweb-ref project-url
+http://thi.ng/math
+#+END_SRC
+#+BEGIN_SRC clojure :exports none :noweb yes :noweb-ref cljs-artefact-path
+target/math-<<version>>.js
+#+END_SRC
+
+** Dependencies
+*** Runtime
+**** [[https://github.com/clojure/clojure][Clojure]]
+#+BEGIN_SRC clojure :noweb-ref dep-clj
+[org.clojure/clojure "1.7.0-beta3"]
+#+END_SRC
+**** [[https://github.com/clojure/clojurescript][ClojureScript]]
+#+BEGIN_SRC clojure :noweb-ref dep-cljs
+[org.clojure/clojurescript "0.0-3269"]
+#+END_SRC
+*** Development
+**** [[https://github.com/hugoduncan/criterium][Criterium]]
+#+BEGIN_SRC clojure :noweb-ref dep-criterium
+[criterium "0.4.3"]
+#+END_SRC
+**** [[https://github.com/cemerick/clojurescript.test][clojurescript.test]]
+#+BEGIN_SRC clojure :noweb-ref dep-cljs-test
+[com.cemerick/clojurescript.test "0.3.3"]
+#+END_SRC
+**** [[https://github.com/emezeske/lein-cljsbuild][Cljsbuild]]
+#+BEGIN_SRC clojure :noweb-ref dep-cljsbuild
+[lein-cljsbuild "1.0.5"]
+#+END_SRC
+
+** Leiningen coordinates
+
+#+BEGIN_SRC clojure :noweb yes :noweb-ref lein-coords
+  [thi.ng/math "0.1.0"]
+#+END_SRC
+
+** Building this project
+
+This project is written in a literate programming format and requires
+[[https://www.gnu.org/software/emacs/][Emacs]] & [[http://orgmode.org][Org-mode]] to generate usable source code. Assuming both tools
+are installed, the easiest way to generate a working project is via
+command line (make sure =emacs= is on your path or else edit its path
+in =tangle.sh=):
+
+#+BEGIN_SRC bash
+  git clone https://github.com/thi.ng/math.git
+  cd math
+  ./tangle.sh src/*.org test/*.org
+#+END_SRC
+
+Tangling is the process of extracting & combining source blocks from
+=.org= files into an actual working project/source tree. Once tangling
+is complete, you can =cd= into the generated project directory
+(=babel=) and then use =lein= as usual.
+
+*** Testing
+
+The =project.clj= file defines an alias to trigger a complete build &
+tests for both CLJ & CLJS versions.
+
+#+BEGIN_SRC bash
+  cd babel
+  lein cleantest
+#+END_SRC
+
+To build the Clojurescript version simply run =lein cljsbuild test=
+from the same directory. A small HTML harness for the resulting JS
+file is also located in that folder (=babel/index.html=), allowing for
+further experimentation in the browser.
+
+*** Working with the REPL
+
+Editing code blocks or files in Org-mode, then re-loading & testing
+changes is quite trivial. Simply launch a REPL (via =lein= or Emacs)
+as usual. Everytime you've made changes to an =.org= file, re-tangle
+it from Emacs (=C-c C-v t=) or =tangle.sh=, then reload the namespace
+in the REPL via =(require 'thi.ng.math... :reload)= or similar.
+
+** Leiningen project file                                          :noexport:
+
+#+BEGIN_SRC clojure :tangle ../babel/project.clj :noweb yes :mkdirp yes :padline no
+  (defproject thi.ng/math "<<version>>"
+    :description  "CLJ/CLJS math functions, macros & utilities"
+    :url          "<<project-url>>"
+    :license      {:name "Apache Software License 2.0"
+                   :url "http://www.apache.org/licenses/LICENSE-2.0"
+                   :distribution :repo}
+    :scm          {:name "git"
+                   :url "git@github.com:thi-ng/math.git"}
+
+    :min-lein-vesion "2.4.0"
+    
+    :dependencies [<<dep-clj>>]
+
+    :profiles     {:dev {:dependencies [<<dep-cljs>>
+                                        <<dep-criterium>>]
+                         :plugins [<<dep-cljsbuild>>
+                                   <<dep-cljs-test>>]
+                         :global-vars {*warn-on-reflection* true}
+                         :jvm-opts ^:replace []
+                         :aliases {"cleantest" ["do" "clean," "test," "cljsbuild" "test"]}
+                  }}
+
+    :cljsbuild    {:builds [{:id "simple"
+                             :source-paths ["src" "test"]
+                             :compiler {:output-to "<<cljs-artefact-path>>"
+                                        :optimizations :whitespace
+                                        :pretty-print true}}]
+                   :test-commands {"unit-tests" ["phantomjs" :runner "<<cljs-artefact-path>>"]}}
+
+    :pom-addition [:developers [:developer
+                                [:name "Karsten Schmidt"]
+                                [:url "http://postspectacular.com"]
+                                [:timezone "0"]]])
+#+END_SRC
+
+** ClojureScript HTML harness                                      :noexport:
+
+#+BEGIN_SRC html :tangle ../babel/index.html :noweb yes :mkdirp yes :padline no
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <title><<lein-coords>> test</title>
+    </head>
+    <body>
+      <script type="text/javascript" src="<<cljs-artefact-path>>"></script>
+    </body>
+  </html>
+#+END_SRC
+
+** Accessing library version during runtime
+
+The autogenerated namespace =thi.ng.math.version= contains a single
+symbol =version= holding the version string defined above:
+
+#+BEGIN_SRC clojure :noweb yes
+  (use '[thi.ng.math.version])
+  
+  (prn version)
+  ; "<<version>>"
+#+END_SRC
+
+*** Version namespace                                              :noexport:
+
+#+BEGIN_SRC clojure :tangle ../babel/src/thi/ng/math/version.cljc :noweb yes :mkdirp yes :padline no :exports none
+  (ns thi.ng.math.version)
+
+  (def version "<<version>>")
+#+END_SRC
+
+** Release history
+
+| *Version* | *Released* | *Description*      | *Lein coordinates*      | *Tagged Github URL* |
+|-----------+------------+--------------------+-------------------------+---------------------|
+|     0.1.0 | 2015-05-22 | 1st public release | =[thi.ng/math "0.1.0"]= | [[https://github.com/thi-ng/trio/tree/0.1.0][0.1.0]]               |
+
+** Contributors
+
+| *Name*          | *Role*                          | *Website*                  |
+|-----------------+---------------------------------+----------------------------|
+| [[k@thi.ng][Karsten Schmidt]] | initiator & principal developer | http://postspectacular.com |
+
+I've got a fairly detailed roadmap and task list to implement over the
+coming months, but am always happy to receive feedback & suggestions
+and have issues filed. Once the core engine is more refined I'll be
+gladly welcoming other contributions. Thanks for understanding!
+
+** License
+
+This project is open source and licensed under the [[http://www.apache.org/licenses/LICENSE-2.0][Apache Software License 2.0]].
