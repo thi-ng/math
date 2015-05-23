@@ -61,7 +61,7 @@ compatible with Clojure versions < 1.7.0*...
 ** Injected properties                                             :noexport:
 
 #+BEGIN_SRC clojure :noweb-ref version
-0.1.0
+0.1.0-SNAPSHOT
 #+END_SRC
 #+BEGIN_SRC clojure :exports none :noweb-ref project-url
 http://thi.ng/math
@@ -78,7 +78,7 @@ target/math-<<version>>.js
 #+END_SRC
 **** [[https://github.com/clojure/clojurescript][ClojureScript]]
 #+BEGIN_SRC clojure :noweb-ref dep-cljs
-[org.clojure/clojurescript "0.0-3269"]
+[org.clojure/clojurescript "0.0-3291"]
 #+END_SRC
 *** Development
 **** [[https://github.com/hugoduncan/criterium][Criterium]]
@@ -91,7 +91,7 @@ target/math-<<version>>.js
 #+END_SRC
 **** [[https://github.com/emezeske/lein-cljsbuild][Cljsbuild]]
 #+BEGIN_SRC clojure :noweb-ref dep-cljsbuild
-[lein-cljsbuild "1.0.5"]
+[lein-cljsbuild "1.0.6"]
 #+END_SRC
 
 ** Leiningen coordinates
@@ -156,10 +156,13 @@ in the REPL via =(require 'thi.ng.math... :reload)= or similar.
 
     :min-lein-vesion "2.4.0"
     
-    :dependencies [<<dep-clj>>]
+    :dependencies [<<dep-clj>>
+                   <<dep-cljs>>]
 
-    :profiles     {:dev {:dependencies [<<dep-cljs>>
-                                        <<dep-criterium>>]
+    :source-paths ["src"]
+    :test-paths   ["test"]
+
+    :profiles     {:dev {:dependencies [<<dep-criterium>>]
                          :plugins [<<dep-cljsbuild>>
                                    <<dep-cljs-test>>]
                          :global-vars {*warn-on-reflection* true}
@@ -216,9 +219,9 @@ symbol =version= holding the version string defined above:
 
 ** Release history
 
-| *Version* | *Released* | *Description*      | *Lein coordinates*      | *Tagged Github URL* |
-|-----------+------------+--------------------+-------------------------+---------------------|
-|     0.1.0 | 2015-05-22 | 1st public release | =[thi.ng/math "0.1.0"]= | [[https://github.com/thi-ng/trio/tree/0.1.0][0.1.0]]               |
+| *Version*      | *Released* | *Description*        | *Lein coordinates*               | *Tagged Github URL* |
+|----------------+------------+----------------------+----------------------------------+---------------------|
+| 0.1.0-SNAPSHOT | 2015-05-23 | initial test release | =[thi.ng/math "0.1.0-SNAPSHOT"]= | [[https://github.com/thi-ng/trio/tree/0.1.0][0.1.0]]               |
 
 ** Contributors
 
