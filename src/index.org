@@ -219,9 +219,9 @@ symbol =version= holding the version string defined above:
 
 ** Release history
 
-| *Version*      | *Released* | *Description*        | *Lein coordinates*               | *Tagged Github URL* |
-|----------------+------------+----------------------+----------------------------------+---------------------|
-| 0.1.0-SNAPSHOT | 2015-05-23 | initial test release | =[thi.ng/math "0.1.0-SNAPSHOT"]= | [[https://github.com/thi-ng/trio/tree/0.1.0][0.1.0]]               |
+| *Version* | *Released* | *Description*        | *Lein coordinates*      | *Tagged Github URL* |
+|-----------+------------+----------------------+-------------------------+---------------------|
+|     0.1.0 | 2015-05-25 | initial test release | =[thi.ng/math "0.1.0"]= | [[https://github.com/thi-ng/math/tree/0.1.0][0.1.0]]               |
 
 ** Contributors
 
