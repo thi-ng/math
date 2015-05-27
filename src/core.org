@@ -75,6 +75,9 @@
 
   (defn abs-diff
     [x y] (abs (- x y)))
+
+  (defn sign
+    [x] (if (zero? v) 0 (if (pos? v) 1 -1)))
 #+END_SRC 
 
 **** Piecewise and recursive equality check with \epsilon value
