@@ -30,10 +30,11 @@
 ** Description
 
 A small library providing a Clojure/Clojurescript compatible
-collection of basic math functions, as well as macros to produce
-inline expanded, nested expressions to create more legible source code
-for involved maths and to avoid extraneous =reduce= calls caused by
-the higher arity versions of Clojure's built-in maths functions.
+collection of basic math and bit manipulation functions, as well as
+macros to produce inline expanded, nested expressions to create more
+legible source code for involved maths and to avoid extraneous
+=reduce= calls caused by the higher arity versions of Clojure's
+built-in maths functions.
 
 The macros are useful to simplify code for many geometry & matrix
 operations and are defined for both Clojure & ClojureScript.
@@ -48,6 +49,7 @@ compatible with Clojure versions < 1.7.0*...
 * Namespaces
 
 - [[./core.org][thi.ng.math.core]]
+- [[./bits.org][thi.ng.math.bits]]
 - [[./macros.org][thi.ng.math.macros]]
 - [[./simplexnoise.org][thi.ng.math.simplexnoise]]
 
@@ -61,7 +63,7 @@ compatible with Clojure versions < 1.7.0*...
 ** Injected properties                                             :noexport:
 
 #+BEGIN_SRC clojure :noweb-ref version
-0.1.0
+0.1.1
 #+END_SRC
 #+BEGIN_SRC clojure :exports none :noweb-ref project-url
 http://thi.ng/math
@@ -219,9 +221,10 @@ symbol =version= holding the version string defined above:
 
 ** Release history
 
-| *Version* | *Released* | *Description*        | *Lein coordinates*      | *Tagged Github URL* |
-|-----------+------------+----------------------+-------------------------+---------------------|
-|     0.1.0 | 2015-05-25 | initial test release | =[thi.ng/math "0.1.0"]= | [[https://github.com/thi-ng/math/tree/0.1.0][0.1.0]]               |
+| *Version* | *Released* | *Description*         | *Lein coordinates*      | *Tagged Github URL* |
+|-----------+------------+-----------------------+-------------------------+---------------------|
+|     0.1.1 | 2015-05-27 | add bit manipulations | =[thi.ng/math "0.1.1"]= | [[https://github.com/thi-ng/math/tree/0.1.1][0.1.1]]               |
+|     0.1.0 | 2015-05-25 | initial test release  | =[thi.ng/math "0.1.0"]= | [[https://github.com/thi-ng/math/tree/0.1.0][0.1.0]]               |
 
 ** Contributors
 

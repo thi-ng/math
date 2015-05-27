@@ -1,7 +1,7 @@
 # thi.ng/math
 
-Common maths functions, macros and utilities for Clojure &
-Clojurescript.
+Common maths functions, macros, bit manipulations and related
+utilities for Clojure & Clojurescript.
 
 This library is the result of an projectwide restructuring /
 dissolving of the [thi.ng/common](http://thi.ng/common) and
@@ -16,5 +16,5 @@ Please see [index.org](src/index.org) for further information.
 ## Current Leiningen coordinates
 
 ```clj
-[thi.ng/math "0.1.0"]
+[thi.ng/math "0.1.1"]
 ```
