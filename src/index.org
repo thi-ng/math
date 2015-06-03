@@ -100,7 +100,7 @@ target/math-<<version>>.js
 ** Leiningen coordinates
 
 #+BEGIN_SRC clojure :noweb yes :noweb-ref lein-coords
-  [thi.ng/math "0.1.0"]
+  [thi.ng/math "0.1.2"]
 #+END_SRC
 
 ** Building this project
@@ -161,9 +161,6 @@ in the REPL via =(require 'thi.ng.math... :reload)= or similar.
     
     :dependencies [<<dep-clj>>
                    <<dep-cljs>>]
-
-    :source-paths ["src"]
-    :test-paths   ["test"]
 
     :profiles     {:dev {:dependencies [<<dep-criterium>>]
                          :plugins [<<dep-cljsbuild>>
