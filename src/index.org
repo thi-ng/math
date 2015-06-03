@@ -50,6 +50,7 @@ compatible with Clojure versions < 1.7.0*...
 
 - [[./core.org][thi.ng.math.core]]
 - [[./bits.org][thi.ng.math.bits]]
+- [[./gamma.org][thi.ng.math.gamma]]
 - [[./macros.org][thi.ng.math.macros]]
 - [[./simplexnoise.org][thi.ng.math.simplexnoise]]
 
@@ -63,7 +64,7 @@ compatible with Clojure versions < 1.7.0*...
 ** Injected properties                                             :noexport:
 
 #+BEGIN_SRC clojure :noweb-ref version
-0.1.1
+0.1.2
 #+END_SRC
 #+BEGIN_SRC clojure :exports none :noweb-ref project-url
 http://thi.ng/math
@@ -76,11 +77,11 @@ target/math-<<version>>.js
 *** Runtime
 **** [[https://github.com/clojure/clojure][Clojure]]
 #+BEGIN_SRC clojure :noweb-ref dep-clj
-[org.clojure/clojure "1.7.0-beta3"]
+[org.clojure/clojure "1.7.0-RC1"]
 #+END_SRC
 **** [[https://github.com/clojure/clojurescript][ClojureScript]]
 #+BEGIN_SRC clojure :noweb-ref dep-cljs
-[org.clojure/clojurescript "0.0-3291"]
+[org.clojure/clojurescript "0.0-3308"]
 #+END_SRC
 *** Development
 **** [[https://github.com/hugoduncan/criterium][Criterium]]
