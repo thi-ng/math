@@ -219,10 +219,11 @@ symbol =version= holding the version string defined above:
 
 ** Release history
 
-| *Version* | *Released* | *Description*         | *Lein coordinates*      | *Tagged Github URL* |
-|-----------+------------+-----------------------+-------------------------+---------------------|
-|     0.1.1 | 2015-05-27 | add bit manipulations | =[thi.ng/math "0.1.1"]= | [[https://github.com/thi-ng/math/tree/0.1.1][0.1.1]]               |
-|     0.1.0 | 2015-05-25 | initial test release  | =[thi.ng/math "0.1.0"]= | [[https://github.com/thi-ng/math/tree/0.1.0][0.1.0]]               |
+| *Version* | *Released* | *Description*              | *Lein coordinates*      | *Tagged Github URL* |
+|-----------+------------+----------------------------+-------------------------+---------------------|
+|     0.1.2 | 2015-06-05 | update deps, add gamma fns | =[thi.ng/math "0.1.2"]= | [[https://github.com/thi-ng/math/tree/0.1.2][0.1.2]]               |
+|     0.1.1 | 2015-05-27 | add bit manipulations      | =[thi.ng/math "0.1.1"]= | [[https://github.com/thi-ng/math/tree/0.1.1][0.1.1]]               |
+|     0.1.0 | 2015-05-25 | initial test release       | =[thi.ng/math "0.1.0"]= | [[https://github.com/thi-ng/math/tree/0.1.0][0.1.0]]               |
 
 ** Contributors
 
