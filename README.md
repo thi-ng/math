@@ -16,5 +16,5 @@ Please see [index.org](src/index.org) for further information.
 ## Current Leiningen coordinates
 
 ```clj
-[thi.ng/math "0.1.2"]
+[thi.ng/math "0.1.3"]
 ```

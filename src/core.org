@@ -212,6 +212,46 @@
     [e0 e1 x]
     (let [t (clamp (mm/subdiv x e0 e1 e0) 0.0 1.0)]
       (* t (* t (mm/madd t -2.0 3.0)))))
+
+  (defn mix-circular
+    [a b t]
+    (let [t (- 1.0 t)]
+      (mm/submadd b a (Math/sqrt (- 1.0 (* t t))) a)))
+
+  (defn mix-circular-flipped
+    [a b t] (mm/submadd b a (- (- (Math/sqrt (- 1.0 (* t t))) 1.0)) a))
+
+  (defn mix-cosine
+    [a b t] (mm/submadd a b (mm/madd (Math/cos (* t PI)) 0.5 0.5) b))
+
+  (defn mix-bezier
+    [a b t c1 c2]
+    (let [tsq (* t t)
+          invt (- 1.0 t)
+          itsq (* invt invt)]
+      (mm/add
+       (mm/mul a t itsq)
+       (mm/mul (mm/submadd b a c1 a) 3.0 t itsq)
+       (mm/mul (mm/submadd b a c2 b) 3.0 tsq invt)
+       (mm/mul b t tsq))))
+
+  (defn mix-exp
+    [a b t e] (mm/submadd b a (Math/pow t e) a))
+
+  (defn mix-decimated
+    [a b t n] (mm/submadd b a (/ (int (* t n)) (double n)) a))
+
+  (defn mix-lens
+    [a b t pos strength]
+    (let [v (mm/submadd b a t a)]
+      (+ (if (< t pos)
+           (mm/subm
+            ((if (pos? strength) mix-circular-flipped mix-circular)
+             a (mm/submadd b a pos a) (/ t pos)) v (abs strength))
+           (mm/subm
+            ((if (neg? strength) mix-circular-flipped mix-circular)
+             (mm/submadd b a pos a) b (mm/subdiv t pos 1.0 pos)) v (abs strength)))
+         v)))
 #+END_SRC
 
 *** Rounding
