@@ -13,7 +13,7 @@
          - [[#interpolation][Interpolation]]
          - [[#rounding][Rounding]]
          - [[#trigonometry][Trigonometry]]
-         - [[#advanced][Advanced]]
+         - [[#misc][Misc]]
          - [[#randomness][Randomness]]
          - [[#statistics][Statistics]]
              - [[#percentiles][Percentiles]]
@@ -83,7 +83,7 @@
 **** Piecewise and recursive equality check with \epsilon value
 
 #+BEGIN_SRC clojure :noweb-ref tpl-delta-eq
-  (delta= ([a b] (and (number? b) (<= (abs (- a b)) *eps*))) ([a b eps] (and (number? b) (<= (abs (- a b)) eps))))
+  (delta= ([a b] (if (number? b) (<= (abs (- a b)) *eps*))) ([a b eps] (if (number? b) (<= (abs (- a b)) eps))))
 #+END_SRC
 
 #+BEGIN_SRC clojure :noweb-ref tpl-delta-eq-seq
@@ -186,17 +186,17 @@
   (defn in-range?
     "Returns true if x >= min and x <= max."
     ([[min max] x]
-       (and (>= x min) (<= x max)))
+       (if (>= x min) (<= x max)))
     ([min max x]
-       (and (>= x min) (<= x max))))
+       (if (>= x min) (<= x max))))
 
   (defn wrap-range
     ([x y] (let [x (rem x y)] (if (neg? x) (+ x y) x))))
 
   (defn norm-range
-    "Returns lazy-seq of values in the closed interval [0.0, 1.0] at
+    "Returns lazy-seq of n values in the closed interval [0.0, 1.0] at
     resolution 1/x."
-    [x] (map #(/ % (double x)) (range (inc x))))
+    [n] (map #(/ % (double n)) (range (inc n))))
 #+END_SRC
 
 *** Interpolation
@@ -252,6 +252,14 @@
             ((if (neg? strength) mix-circular-flipped mix-circular)
              (mm/submadd b a pos a) b (mm/subdiv t pos 1.0 pos)) v (abs strength)))
          v)))
+
+  (defn mix-bounce
+    [a b t k]
+    (if-not (zero? t)
+      (let [t' (* t k)
+            t' (- 1.0 (* (/ (Math/sin t') t') (Math/cos (* t HALF_PI))))]
+        (mm/submadd b a t a))
+      a))
 #+END_SRC
 
 *** Rounding
@@ -277,7 +285,7 @@
   (defn ceil-pow2
     [x]
     (loop [pow2 1]
-      (if (>= pow2 x) pow2 (recur (* pow2 2)))))
+      (if (>= pow2 x) pow2 (recur (bit-shift-left pow2 1)))))
 
   (defn floor-pow2
     [x]
@@ -307,7 +315,7 @@
   (defn degrees [x] (* x DEG))
 #+END_SRC
 
-*** Advanced
+*** Misc
 
 #+BEGIN_SRC clojure :noweb-ref math
   (defn maxmag
@@ -351,6 +359,10 @@
   (defn impulse
     [k t]
     (let [h (* k t)] (* h (Math/exp (- 1.0 h)))))
+
+  (defn sinc
+    ([x] (if (zero? x) 0.0 (/ (Math/sin x) x)))
+    ([x freq] (if (zero? x) 0.0 (let [x' (* x freq)] (/ (Math/sin x') x')))))
 #+END_SRC
 
 *** Randomness
