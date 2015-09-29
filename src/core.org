@@ -258,7 +258,7 @@
     (if-not (zero? t)
       (let [t' (* t k)
             t' (- 1.0 (* (/ (Math/sin t') t') (Math/cos (* t HALF_PI))))]
-        (mm/submadd b a t a))
+        (mm/submadd b a t' a))
       a))
 #+END_SRC
 
