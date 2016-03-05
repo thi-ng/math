@@ -5,16 +5,15 @@
      - [[#protocols][Protocols]]
              - [[#imathops][IMathOps]]
              - [[#imutablemathops][IMutableMathOps]]
-             - [[#todo-iconjugate][TODO IConjugate]]
+             - [[#iconjugate][IConjugate]]
              - [[#ideltaequals][IDeltaEquals]]
-             - [[#todo-ideterminant][TODO IDeterminant]]
+             - [[#ideterminant][IDeterminant]]
              - [[#iinterpolate][IInterpolate]]
              - [[#iinvert][IInvert]]
              - [[#iminmax][IMinMax]]
              - [[#ilimit][ILimit]]
              - [[#inormalize][INormalize]]
              - [[#isetops][ISetOps]]
-             - [[#itransform][ITransform]]
              - [[#itranspose][ITranspose]]
      - [[#constants][Constants]]
          - [[#dynamic-\epsilon-config][Dynamic \epsilon config]]
@@ -65,8 +64,7 @@
     (abs! [_]))
 #+END_SRC
 
-**** TODO IConjugate
-
+**** IConjugate
 #+BEGIN_SRC clojure :noweb-ref protos-math
   (defprotocol IConjugate
     (conjugate [_]))
@@ -78,8 +76,7 @@
     (delta= [a b] [a b eps]))
 #+END_SRC
 
-**** TODO IDeterminant
-
+**** IDeterminant
 #+BEGIN_SRC clojure :noweb-ref protos-math
   (defprotocol IDeterminant
     (determinant [_]))
@@ -122,12 +119,6 @@
     (union [_ x])
     (intersection [_ x])
     (difference [_ x]))
-#+END_SRC
-
-**** ITransform
-#+BEGIN_SRC clojure :noweb-ref protos-tx
-  (defprotocol ITransform
-    (transform [_ tx]))
 #+END_SRC
 
 **** ITranspose
