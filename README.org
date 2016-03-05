@@ -63,16 +63,16 @@ compatible with Clojure versions < 1.7.0*...
 
 * Namespaces
 
-- [[./core.org][thi.ng.math.core]]
-- [[./bits.org][thi.ng.math.bits]]
-- [[./gamma.org][thi.ng.math.gamma]]
-- [[./macros.org][thi.ng.math.macros]]
-- [[./simplexnoise.org][thi.ng.math.simplexnoise]]
+- [[./src/core.org][thi.ng.math.core]]
+- [[./src/bits.org][thi.ng.math.bits]]
+- [[./src/gamma.org][thi.ng.math.gamma]]
+- [[./src/macros.org][thi.ng.math.macros]]
+- [[./src/simplexnoise.org][thi.ng.math.simplexnoise]]
 
 * Tests
 
-- [[../test/core.org][thi.ng.math.test.core]]
-- [[../test/macros.org][thi.ng.math.test.macros]]
+- [[./test/core.org][thi.ng.math.test.core]]
+- [[./test/macros.org][thi.ng.math.test.macros]]
 
 * Project definition
 
