@@ -11,7 +11,7 @@
 
 * Namespace: thi.ng.math.macros
 
-This name space provides basic math expressions as macros to produce
+This namespace provides basic math expressions as macros to produce
 inline expanded, nested expressions to create more legible source code
 for involved maths and to avoid extraneous =reduce= calls caused by
 the higher arity versions of Clojure's built-in maths functions.

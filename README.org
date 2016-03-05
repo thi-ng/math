@@ -6,6 +6,9 @@
 * Contents                                                         :toc_3_gh:
  - [[#about-the-project][About the project]]
      - [[#description][Description]]
+     - [[#leiningen-coordinates][Leiningen coordinates]]
+         - [[#stable][Stable]]
+         - [[#latest-snapshot][Latest snapshot]]
  - [[#namespaces][Namespaces]]
  - [[#tests][Tests]]
  - [[#project-definition][Project definition]]
@@ -13,7 +16,6 @@
      - [[#dependencies][Dependencies]]
          - [[#runtime][Runtime]]
          - [[#development][Development]]
-     - [[#leiningen-coordinates][Leiningen coordinates]]
      - [[#building-this-project][Building this project]]
          - [[#testing][Testing]]
          - [[#working-with-the-repl][Working with the REPL]]
@@ -30,21 +32,34 @@
 ** Description
 
 A small library providing a Clojure/Clojurescript compatible
-collection of basic math and bit manipulation functions, as well as
-macros to produce inline expanded, nested expressions to create more
-legible source code for involved maths and to avoid extraneous
-=reduce= calls caused by the higher arity versions of Clojure's
-built-in maths functions.
+collection of maths related protocols, general math functions, bit
+manipulation functions, as well as macros to produce inline expanded,
+nested expressions to create more legible source code for involved
+maths and to avoid extraneous =reduce= calls caused by the higher
+arity versions of Clojure's built-in maths functions.
 
 The macros are useful to simplify code for many geometry & matrix
 operations and are defined for both Clojure & ClojureScript.
 
-This library is the result of a thi.ng projectwide restructuring /
-dissolving of the [[http://thi.ng/common][thi.ng/common]] and [[http://thi.ng/macromath][thi.ng/macromath]] libraries.
+The protocols defined here are used by a number of other thi.ng
+projects, incl. [[http://thi.ng/color][thi.ng/color]], [[http://thi.ng/geom][thi.ng/geom]], [[http://thi.ng/morphogen][thi.ng/morphogen]].
 
 *Note:* This library relies on the new conditional reader syntax of
 recent Clojure & Clojurescript versions and therefore is *not
 compatible with Clojure versions < 1.7.0*...
+
+** Leiningen coordinates
+
+*** Stable
+#+BEGIN_SRC clojure :noweb yes
+  [thi.ng/math "0.1.4"]
+#+END_SRC
+
+*** Latest snapshot
+#+BEGIN_SRC clojure :noweb yes :noweb-ref lein-coords
+  [thi.ng/math "0.2.0-SNAPSHOT"]
+#+END_SRC
+
 
 * Namespaces
 
@@ -64,7 +79,7 @@ compatible with Clojure versions < 1.7.0*...
 ** Injected properties                                             :noexport:
 
 #+BEGIN_SRC clojure :noweb-ref version
-0.1.4
+0.2.0-SNAPSHOT
 #+END_SRC
 #+BEGIN_SRC clojure :exports none :noweb-ref project-url
 http://thi.ng/math
@@ -77,11 +92,11 @@ target/math-<<version>>.js
 *** Runtime
 **** [[https://github.com/clojure/clojure][Clojure]]
 #+BEGIN_SRC clojure :noweb-ref dep-clj
-[org.clojure/clojure "1.7.0-RC1"]
+[org.clojure/clojure "1.8.0"]
 #+END_SRC
 **** [[https://github.com/clojure/clojurescript][ClojureScript]]
 #+BEGIN_SRC clojure :noweb-ref dep-cljs
-[org.clojure/clojurescript "0.0-3308"]
+[org.clojure/clojurescript "1.7.228"]
 #+END_SRC
 *** Development
 **** [[https://github.com/hugoduncan/criterium][Criterium]]
@@ -94,13 +109,7 @@ target/math-<<version>>.js
 #+END_SRC
 **** [[https://github.com/emezeske/lein-cljsbuild][Cljsbuild]]
 #+BEGIN_SRC clojure :noweb-ref dep-cljsbuild
-[lein-cljsbuild "1.0.6"]
-#+END_SRC
-
-** Leiningen coordinates
-
-#+BEGIN_SRC clojure :noweb yes :noweb-ref lein-coords
-  [thi.ng/math "0.1.2"]
+[lein-cljsbuild "1.1.2"]
 #+END_SRC
 
 ** Building this project
@@ -147,7 +156,7 @@ in the REPL via =(require 'thi.ng.math... :reload)= or similar.
 
 ** Leiningen project file                                          :noexport:
 
-#+BEGIN_SRC clojure :tangle ../babel/project.clj :noweb yes :mkdirp yes :padline no
+#+BEGIN_SRC clojure :tangle ./babel/project.clj :noweb yes :mkdirp yes :padline no
   (defproject thi.ng/math "<<version>>"
     :description  "CLJ/CLJS math functions, macros & utilities"
     :url          "<<project-url>>"
@@ -184,7 +193,7 @@ in the REPL via =(require 'thi.ng.math... :reload)= or similar.
 
 ** ClojureScript HTML harness                                      :noexport:
 
-#+BEGIN_SRC html :tangle ../babel/index.html :noweb yes :mkdirp yes :padline no
+#+BEGIN_SRC html :tangle ./babel/index.html :noweb yes :mkdirp yes :padline no
   <!DOCTYPE html>
   <html lang="en">
     <head>
@@ -210,7 +219,7 @@ symbol =version= holding the version string defined above:
 
 *** Version namespace                                              :noexport:
 
-#+BEGIN_SRC clojure :tangle ../babel/src/thi/ng/math/version.cljc :noweb yes :mkdirp yes :padline no :exports none
+#+BEGIN_SRC clojure :tangle ./babel/src/thi/ng/math/version.cljc :noweb yes :mkdirp yes :padline no :exports none
   (ns thi.ng.math.version)
 
   (def version "<<version>>")
@@ -220,6 +229,7 @@ symbol =version= holding the version string defined above:
 
 | *Version* | *Released* | *Description*                            | *Lein coordinates*      | *Tagged Github URL* |
 |-----------+------------+------------------------------------------+-------------------------+---------------------|
+|     0.2.0 | TBD        | add protocols, minor refactorings        | =[thi.ng/math "0.2.0"]= | [[https://github.com/thi-ng/math/tree/0.2.0][0.2.0]]               |
 |     0.1.4 | 2015-06-17 | add interpolation fns, minor refactoring | =[thi.ng/math "0.1.4"]= | [[https://github.com/thi-ng/math/tree/0.1.4][0.1.4]]               |
 |     0.1.3 | 2015-06-08 | add interpolation fns                    | =[thi.ng/math "0.1.3"]= | [[https://github.com/thi-ng/math/tree/0.1.3][0.1.3]]               |
 |     0.1.2 | 2015-06-05 | update deps, add gamma fns               | =[thi.ng/math "0.1.2"]= | [[https://github.com/thi-ng/math/tree/0.1.2][0.1.2]]               |

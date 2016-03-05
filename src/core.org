@@ -2,6 +2,20 @@
 
 * Contents                                                         :toc_4_gh:
  - [[#namespace-thingmathcore][Namespace: thi.ng.math.core]]
+     - [[#protocols][Protocols]]
+             - [[#imathops][IMathOps]]
+             - [[#imutablemathops][IMutableMathOps]]
+             - [[#todo-iconjugate][TODO IConjugate]]
+             - [[#ideltaequals][IDeltaEquals]]
+             - [[#todo-ideterminant][TODO IDeterminant]]
+             - [[#iinterpolate][IInterpolate]]
+             - [[#iinvert][IInvert]]
+             - [[#iminmax][IMinMax]]
+             - [[#ilimit][ILimit]]
+             - [[#inormalize][INormalize]]
+             - [[#isetops][ISetOps]]
+             - [[#itransform][ITransform]]
+             - [[#itranspose][ITranspose]]
      - [[#constants][Constants]]
          - [[#dynamic-\epsilon-config][Dynamic \epsilon config]]
          - [[#dynamic-prng][Dynamic PRNG]]
@@ -22,16 +36,116 @@
 
 * Namespace: thi.ng.math.core
 
+** Protocols
+**** IMathOps
+#+BEGIN_SRC clojure :noweb-ref protos
+  (defprotocol IMathOps
+    (+ [_] [_ a] [_ a b] [_ a b c])
+    (- [_] [_ a] [_ a b] [_ a b c])
+    (* [_] [_ a] [_ a b] [_ a b c])
+    (div [_] [_ a] [_ a b] [_ a b c])
+    (madd [_ a b])
+    (addm [_ a b])
+    (msub [_ a b])
+    (subm [_ a b])
+    (abs [_]))
+#+END_SRC
+
+**** IMutableMathOps
+#+BEGIN_SRC clojure :noweb-ref protos
+  (defprotocol IMutableMathOps
+    (+! [_] [_ a] [_ a b] [_ a b c])
+    (-! [_] [_ a] [_ a b] [_ a b c])
+    (*! [_] [_ a] [_ a b] [_ a b c])
+    (div! [_] [_ a] [_ a b] [_ a b c])
+    (madd! [_ a b])
+    (addm! [_ a b])
+    (msub! [_ a b])
+    (subm! [_ a b])
+    (abs! [_]))
+#+END_SRC
+
+**** TODO IConjugate
+
+#+BEGIN_SRC clojure :noweb-ref protos-math
+  (defprotocol IConjugate
+    (conjugate [_]))
+#+END_SRC
+
+**** IDeltaEquals
+#+BEGIN_SRC clojure :noweb-ref protos
+  (defprotocol IDeltaEquals
+    (delta= [a b] [a b eps]))
+#+END_SRC
+
+**** TODO IDeterminant
+
+#+BEGIN_SRC clojure :noweb-ref protos-math
+  (defprotocol IDeterminant
+    (determinant [_]))
+#+END_SRC
+
+**** IInterpolate
+#+BEGIN_SRC clojure :noweb-ref protos
+  (defprotocol IInterpolate
+    (mix [_ x] [_ x t] [_ a b c u v]))
+#+END_SRC
+
+**** IInvert
+#+BEGIN_SRC clojure :noweb-ref protos
+  (defprotocol IInvert
+    (invert [_]))
+#+END_SRC
+**** IMinMax
+#+BEGIN_SRC clojure :noweb-ref protos
+  (defprotocol IMinMax
+    (min [_ a] [_ a b])
+    (max [_ a] [_ a b]))
+#+END_SRC
+
+**** ILimit
+#+BEGIN_SRC clojure :noweb-ref protos
+  (defprotocol ILimit
+    (limit [_ x]))
+#+END_SRC
+
+**** INormalize
+#+BEGIN_SRC clojure :noweb-ref protos
+  (defprotocol INormalize
+    (normalize [_] [_ norm])
+    (normalized? [_]))
+#+END_SRC
+
+**** ISetOps
+#+BEGIN_SRC clojure :noweb-ref protos
+  (defprotocol ISetOps
+    (union [_ x])
+    (intersection [_ x])
+    (difference [_ x]))
+#+END_SRC
+
+**** ITransform
+#+BEGIN_SRC clojure :noweb-ref protos-tx
+  (defprotocol ITransform
+    (transform [_ tx]))
+#+END_SRC
+
+**** ITranspose
+#+BEGIN_SRC clojure :noweb-ref protos
+  (defprotocol ITranspose
+    (transpose [_]))
+#+END_SRC
+
 ** Constants
 
 #+BEGIN_SRC clojure :noweb-ref const
   (def ^:const PI Math/PI)
-  (def ^:const TWO_PI (* PI 2.0))
+  (def ^:const TWO_PI (clojure.core/* PI 2.0))
   (def ^:const HALF_PI (/ PI 2.0))
   (def ^:const THIRD_PI (/ PI 3.0))
   (def ^:const QUARTER_PI (/ PI 4.0))
   (def ^:const SIXTH_PI (/ PI 6.0))
-  (def ^:const THREE_HALVES_PI (* PI 1.5))
+  (def ^:const THREE_HALVES_PI (clojure.core/* PI 1.5))
 
   (def ^:const MAX 1.7976931348623157E308)
   (def ^:const MIN 4.9E-324)
@@ -69,12 +183,12 @@
 
 #+BEGIN_SRC clojure :noweb-ref math
   #?(:clj
-     (defn abs [x] (if (neg? x) (- x) x))
+     (defn abs* [x] (if (neg? x) (clojure.core/- x) x))
      :cljs
-     (def abs Math/abs))
+     (def abs* Math/abs))
 
   (defn abs-diff
-    [x y] (abs (- x y)))
+    [x y] (abs* (clojure.core/- x y)))
 
   (defn sign
     [x] (if (zero? x) 0 (if (pos? x) 1 -1)))
@@ -83,20 +197,14 @@
 **** Piecewise and recursive equality check with \epsilon value
 
 #+BEGIN_SRC clojure :noweb-ref tpl-delta-eq
-  (delta= ([a b] (if (number? b) (<= (abs (- a b)) *eps*))) ([a b eps] (if (number? b) (<= (abs (- a b)) eps))))
+  (delta=
+   ([a b] (if (number? b) (<= (abs* (clojure.core/- a b)) *eps*)))
+   ([a b eps] (if (number? b) (<= (abs* (clojure.core/- a b)) eps))))
 #+END_SRC
 
 #+BEGIN_SRC clojure :noweb-ref tpl-delta-eq-seq
   (delta=
-   ([a b]
-      (and (sequential? b)
-           (== (count a) (count b))
-           (loop [a a, b b]
-             (if a
-               (if (delta= (first a) (first b))
-                 (recur (next a) (next b))
-                 false)
-               true))))
+   ([a b] (delta= a b *eps*))
    ([a b eps]
       (and (sequential? b)
            (== (count a) (count b))
@@ -109,10 +217,7 @@
 #+END_SRC
 
 #+BEGIN_SRC clojure :noweb-ref math
-  (defprotocol PDeltaEquals
-    (delta= [a b] [a b eps]))
-
-  (extend-protocol PDeltaEquals
+  (extend-protocol IDeltaEquals
     #?@(:clj
          [Integer
           <<tpl-delta-eq>>
@@ -165,9 +270,9 @@
   (defn map-interval
     "Maps x from one interval into another. Intervals can be defined as vectors."
     ([x [in1 in2] [out1 out2]]
-       (mm/madd (- out2 out1) (mm/subdiv x in1 in2 in1) out1))
+       (mm/madd (clojure.core/- out2 out1) (mm/subdiv x in1 in2 in1) out1))
     ([x in1 in2 out1 out2]
-       (mm/madd (- out2 out1) (mm/subdiv x in1 in2 in1) out1)))
+       (mm/madd (clojure.core/- out2 out1) (mm/subdiv x in1 in2 in1) out1)))
 
   (defn map-interval-clamped
     ([x [in1 in2] [out1 out2]]
@@ -191,7 +296,7 @@
        (if (>= x min) (<= x max))))
 
   (defn wrap-range
-    ([x y] (let [x (rem x y)] (if (neg? x) (+ x y) x))))
+    ([x y] (let [x (rem x y)] (if (neg? x) (clojure.core/+ x y) x))))
 
   (defn norm-range
     "Returns lazy-seq of n values in the closed interval [0.0, 1.0] at
@@ -202,7 +307,7 @@
 *** Interpolation
 
 #+BEGIN_SRC clojure :noweb-ref math
-  (defn mix
+  (defn mix*
     [a b t] (mm/submadd b a t a))
 
   (defn step
@@ -211,24 +316,24 @@
   (defn smoothstep
     [e0 e1 x]
     (let [t (clamp (mm/subdiv x e0 e1 e0) 0.0 1.0)]
-      (* t (* t (mm/madd t -2.0 3.0)))))
+      (clojure.core/* t (clojure.core/* t (mm/madd t -2.0 3.0)))))
 
   (defn mix-circular
     [a b t]
-    (let [t (- 1.0 t)]
-      (mm/submadd b a (Math/sqrt (- 1.0 (* t t))) a)))
+    (let [t (clojure.core/- 1.0 t)]
+      (mm/submadd b a (Math/sqrt (clojure.core/- 1.0 (clojure.core/* t t))) a)))
 
   (defn mix-circular-flipped
-    [a b t] (mm/submadd b a (- (- (Math/sqrt (- 1.0 (* t t))) 1.0)) a))
+    [a b t] (mm/submadd b a (clojure.core/- (clojure.core/- (Math/sqrt (clojure.core/- 1.0 (clojure.core/* t t))) 1.0)) a))
 
   (defn mix-cosine
-    [a b t] (mm/submadd a b (mm/madd (Math/cos (* t PI)) 0.5 0.5) b))
+    [a b t] (mm/submadd a b (mm/madd (Math/cos (clojure.core/* t PI)) 0.5 0.5) b))
 
   (defn mix-bezier
     [a b t c1 c2]
-    (let [tsq (* t t)
-          invt (- 1.0 t)
-          itsq (* invt invt)]
+    (let [tsq (clojure.core/* t t)
+          invt (clojure.core/- 1.0 t)
+          itsq (clojure.core/* invt invt)]
       (mm/add
        (mm/mul a t itsq)
        (mm/mul (mm/submadd b a c1 a) 3.0 t itsq)
@@ -239,25 +344,25 @@
     [a b t e] (mm/submadd b a (Math/pow t e) a))
 
   (defn mix-decimated
-    [a b t n] (mm/submadd b a (/ (int (* t n)) (double n)) a))
+    [a b t n] (mm/submadd b a (/ (int (clojure.core/* t n)) (double n)) a))
 
   (defn mix-lens
     [a b t pos strength]
     (let [v (mm/submadd b a t a)]
-      (+ (if (< t pos)
+      (clojure.core/+ (if (< t pos)
            (mm/subm
             ((if (pos? strength) mix-circular-flipped mix-circular)
-             a (mm/submadd b a pos a) (/ t pos)) v (abs strength))
+             a (mm/submadd b a pos a) (/ t pos)) v strength)
            (mm/subm
             ((if (neg? strength) mix-circular-flipped mix-circular)
-             (mm/submadd b a pos a) b (mm/subdiv t pos 1.0 pos)) v (abs strength)))
+             (mm/submadd b a pos a) b (mm/subdiv t pos 1.0 pos)) v (abs* strength)))
          v)))
 
   (defn mix-bounce
     [a b t k]
     (if-not (zero? t)
-      (let [t' (* t k)
-            t' (- 1.0 (* (/ (Math/sin t') t') (Math/cos (* t HALF_PI))))]
+      (let [t' (clojure.core/* t k)
+            t' (clojure.core/- 1.0 (clojure.core/* (/ (Math/sin t') t') (Math/cos (clojure.core/* t HALF_PI))))]
         (mm/submadd b a t' a))
       a))
 #+END_SRC
@@ -276,11 +381,11 @@
     [x]
     #?(:clj
        (long (Math/ceil x))
-       :cljs
+       :cljs ;; TODO see abs*
        (Math/ceil x)))
 
   (defn roundto
-    [x prec] (* (floor (+ (/ x prec) 0.5)) prec))
+    [x prec] (clojure.core/* (floor (clojure.core/+ (/ x prec) 0.5)) prec))
 
   (defn ceil-pow2
     [x]
@@ -294,6 +399,7 @@
        :cljs
        (Math/pow 2 (int (/ (Math/log x) LOG2)))))
 
+  ;; TODO now included in CLJ1.8?
   (defn bit-count
     [x] (ceil (/ (Math/log x) LOG2)))
 
@@ -301,18 +407,18 @@
     [x] (if (neg? x) (ceil x) (floor x)))
 
   (defn fract
-    [x] (- x (Math/floor x)))
+    [x] (clojure.core/- x (Math/floor x)))
 
   (defn fdim
-    [x y] (if (> x y) (- x y) 0))
+    [x y] (if (> x y) (clojure.core/- x y) 0))
 #+END_SRC
 
 *** Trigonometry
 
 #+BEGIN_SRC clojure :noweb-ref math
-  (defn radians [x] (* x RAD))
+  (defn radians [x] (clojure.core/* x RAD))
 
-  (defn degrees [x] (* x DEG))
+  (defn degrees [x] (clojure.core/* x DEG))
 #+END_SRC
 
 *** Misc
@@ -320,7 +426,7 @@
 #+BEGIN_SRC clojure :noweb-ref math
   (defn maxmag
     [x y]
-    (let [ax (abs x) ay (abs y)]
+    (let [ax (abs* x) ay (abs* y)]
       (cond
        (> ax ay) x
        (> ay ax) y
@@ -328,14 +434,14 @@
 
   (defn minmag
     [x y]
-    (let [ax (abs x) ay (abs y)]
+    (let [ax (abs* x) ay (abs* y)]
       (cond
        (< ax ay) x
        (< ay ax) y
        :default x)))
 
   (defn ldexp
-    [x k] (* x (Math/pow 2 (int k))))
+    [x k] (clojure.core/* x (Math/pow 2 (int k))))
 
   (defn remquo
     [x y]
@@ -345,7 +451,7 @@
              (= f 0.5) (if (even? (int k)) (int k) (ceil k))
              (< f 0.5) (floor k)
              :default (ceil k))]
-      (- x (* k y))))
+      (clojure.core/- x (clojure.core/* k y))))
 
   (defn hypot
     [x y] (Math/sqrt (mm/madd x x y y)))
@@ -358,11 +464,11 @@
 
   (defn impulse
     [k t]
-    (let [h (* k t)] (* h (Math/exp (- 1.0 h)))))
+    (let [h (clojure.core/* k t)] (clojure.core/* h (Math/exp (clojure.core/- 1.0 h)))))
 
   (defn sinc
     ([x] (if (zero? x) 0.0 (/ (Math/sin x) x)))
-    ([x freq] (if (zero? x) 0.0 (let [x' (* x freq)] (/ (Math/sin x') x')))))
+    ([x freq] (if (zero? x) 0.0 (let [x' (clojure.core/* x freq)] (/ (Math/sin x') x')))))
 #+END_SRC
 
 *** Randomness
@@ -381,9 +487,9 @@
   (defn randnorm
     []
     #?(:clj
-       (dec (* (.nextDouble ^java.util.Random *rnd*) 2.0))
+       (dec (clojure.core/* (.nextDouble ^java.util.Random *rnd*) 2.0))
        :cljs
-       (dec (* (*rnd*) 2.0))))
+       (dec (clojure.core/* (*rnd*) 2.0))))
 #+END_SRC
 
 *** Statistics
@@ -409,7 +515,7 @@
          (nth sorted)))
 
   (defn quartile-index
-    [n num] (percentile-index (* n 25) num))
+    [n num] (percentile-index (clojure.core/* n 25) num))
 
   (defn quartile-range
     [n num]
@@ -421,7 +527,7 @@
     "Takes a quartile index (1..4) and sorted seq of samples, returns set of items in quartile."
     [n sorted]
     (let [[a b] (quartile-range n (count sorted))]
-      (->> sorted (drop a) (take (- b a)))))
+      (->> sorted (drop a) (take (clojure.core/- b a)))))
 #+END_SRC
 
 **** Distributions
@@ -431,19 +537,21 @@
     ([n] (normdist-weights n 1.0))
     ([n scale]
        (let [ws (repeatedly n random)
-             s (/ scale (reduce + ws))]
-         (map #(* s %) ws))))
+             s (/ scale (reduce clojure.core/+ ws))]
+         (map #(clojure.core/* s %) ws))))
 #+END_SRC
 
 ** Complete namespace definition
 
 #+BEGIN_SRC clojure :tangle ../babel/src/thi/ng/math/core.cljc :noweb yes :mkdirp yes :padline no
   (ns thi.ng.math.core
-    (:refer-clojure :exclude [bit-count])
+    (:refer-clojure :exclude [+ - * min max bit-count])
     #?(:clj
        (:require [thi.ng.math.macros :as mm])
        :cljs
        (:require-macros [thi.ng.math.macros :as mm])))
+
+  <<protos>>
 
   <<const>>
 

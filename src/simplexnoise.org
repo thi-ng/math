@@ -46,7 +46,7 @@
           ipx  (bit-and pfx 255) ipy  (bit-and pfy 255) ipz  (bit-and pfz 255)
           ipx' (inc ipx)         ipy' (inc ipy)         ipz' (inc ipz)
           fpx' (dec fpx)         fpy' (dec fpy)         fpz' (dec fpz)
-          t    (smooth fpx)      t2 (smooth fpy)]
+          t    (smooth fpx)      t2   (smooth fpy)]
       (* (mm/mix
           (gradient3 ipx  ipy  ipz  fpx  fpy  fpz)  ; 000
           (gradient3 ipx' ipy  ipz  fpx' fpy  fpz)  ; 100
