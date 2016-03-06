@@ -1,4 +1,4 @@
-#+SETUPFILE: ./setup.org
+#+SETUPFILE: ./src/setup.org
 #+TITLE: thi.ng/math
 #+AUTHOR: Karsten Schmidt
 #+EMAIL: k@thi.ng

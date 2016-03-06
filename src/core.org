@@ -146,6 +146,8 @@
   (def ^:const PHI (/ (inc (Math/sqrt 5.0)) 2))
 
   (def ^:const THIRD (/ 1.0 3.0))
+  (def ^:const TWO_THIRD (/ 2.0 3.0))
+  (def ^:const SIXTH (/ 1.0 6.0))
 
   (def ^:const LOG2 (Math/log 2.0))
 
@@ -154,6 +156,11 @@
 
   (def ^:const DEG (/ 180.0 PI))
   (def ^:const RAD (/ PI 180.0))
+
+  (def ^:const INV7BIT (/ 1.0 0x7f))
+  (def ^:const INV8BIT (/ 1.0 0xff))
+  (def ^:const INV15BIT (/ 1.0 0x7fff))
+  (def ^:const INV16BIT (/ 1.0 0xffff))
 #+END_SRC
 
 *** Dynamic \epsilon config
