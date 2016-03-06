@@ -65,7 +65,7 @@
 #+END_SRC
 
 **** IConjugate
-#+BEGIN_SRC clojure :noweb-ref protos-math
+#+BEGIN_SRC clojure :noweb-ref protos
   (defprotocol IConjugate
     (conjugate [_]))
 #+END_SRC
@@ -77,7 +77,7 @@
 #+END_SRC
 
 **** IDeterminant
-#+BEGIN_SRC clojure :noweb-ref protos-math
+#+BEGIN_SRC clojure :noweb-ref protos
   (defprotocol IDeterminant
     (determinant [_]))
 #+END_SRC
