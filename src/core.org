@@ -6,12 +6,15 @@
              - [[#imathops][IMathOps]]
              - [[#imutablemathops][IMutableMathOps]]
              - [[#iconjugate][IConjugate]]
+             - [[#icrossproduct][ICrossProduct]]
              - [[#ideltaequals][IDeltaEquals]]
              - [[#ideterminant][IDeterminant]]
+             - [[#idotproduct][IDotProduct]]
              - [[#iinterpolate][IInterpolate]]
              - [[#iinvert][IInvert]]
              - [[#iminmax][IMinMax]]
              - [[#ilimit][ILimit]]
+             - [[#imagnitude][IMagnitude]]
              - [[#inormalize][INormalize]]
              - [[#isetops][ISetOps]]
              - [[#itranspose][ITranspose]]
@@ -70,6 +73,12 @@
     (conjugate [_]))
 #+END_SRC
 
+**** ICrossProduct
+#+BEGIN_SRC clojure :noweb-ref protos
+  (defprotocol ICrossProduct
+    (cross [_ a]))
+#+END_SRC
+
 **** IDeltaEquals
 #+BEGIN_SRC clojure :noweb-ref protos
   (defprotocol IDeltaEquals
@@ -80,6 +89,12 @@
 #+BEGIN_SRC clojure :noweb-ref protos
   (defprotocol IDeterminant
     (determinant [_]))
+#+END_SRC
+
+**** IDotProduct
+#+BEGIN_SRC clojure :noweb-ref protos
+  (defprotocol IDotProduct
+    (dot [_] [_ a]))
 #+END_SRC
 
 **** IInterpolate
@@ -104,6 +119,13 @@
 #+BEGIN_SRC clojure :noweb-ref protos
   (defprotocol ILimit
     (limit [_ x]))
+#+END_SRC
+
+**** IMagnitude
+#+BEGIN_SRC clojure :noweb-ref protos
+  (defprotocol IMagnitude
+    (mag [_])
+    (mag-squared [_]))
 #+END_SRC
 
 **** INormalize
