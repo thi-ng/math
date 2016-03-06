@@ -475,11 +475,11 @@
   (defn random
     #?@(:clj
         [([] (.nextDouble ^java.util.Random *rnd*))
-         ([max] (* (.nextDouble ^java.util.Random *rnd*) max))
+         ([max] (clojure.core/* (.nextDouble ^java.util.Random *rnd*) max))
          ([min max] (mm/submadd max min (.nextDouble ^java.util.Random *rnd*) min))]
         :cljs
         [([] (*rnd*))
-         ([max] (* (*rnd*) max))
+         ([max] (clojure.core/* (*rnd*) max))
          ([min max] (mm/submadd max min (*rnd*) min))]))
 
   (defn randnorm
