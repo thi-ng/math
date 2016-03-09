@@ -136,7 +136,7 @@ especially useful (more legible and faster) for higher arities (up to 8):
 
 #+BEGIN_SRC clojure :noweb-ref bin-ops
   (defmacro if*
-    "Returns y if x > 0, else 0"
+    "Returns y if x pred returns truthy, else 0"
     [pred x y] `(if (~pred ~x) ~y 0))
   
   (defmacro bitmask
@@ -166,9 +166,18 @@ especially useful (more legible and faster) for higher arities (up to 8):
 #+BEGIN_SRC clojure :noweb-ref mix
   (defmacro mix
     "Linear, bi-linear & tri-linear interpolation"
-    ([a b t] `(let [a# ~a] (submadd ~b a# ~t a#)))
-    ([a b c d u v] `(mix (mix ~a ~b ~u) (mix ~c ~d ~u) ~v))
-    ([a b c d e f g h u v w] `(mix (mix ~a ~b ~c ~d ~u ~v) (mix ~e ~f ~g ~h ~u ~v) ~w)))
+    ([a b t]
+     `(let [a# ~a]
+        (submadd ~b a# ~t a#)))
+    ([a b c d u v]
+     `(let [u# ~u
+            a# (mix ~a ~b u#)]
+        (submadd (mix ~c ~d u#) a# ~v a#)))
+    ([a b c d e f g h u v w]
+     `(let [u# ~u
+            v# ~v
+            a# (mix ~a ~b ~c ~d u# v#)]
+        (submadd (mix ~e ~f ~g ~h u# v#) a# ~w a#))))
 #+END_SRC
 
 *** Min / max
