@@ -41,7 +41,6 @@ Source: http://en.wikipedia.org/wiki/Lanczos_approximation
      -0.26190838401581408670e-4
      0.36899182659531622704e-5])
 
-  (def G 7)
   (def GLN (/ 607.0 128))
 #+END_SRC
 
@@ -74,11 +73,11 @@ Source: http://en.wikipedia.org/wiki/Lanczos_approximation
       (> z 100) (Math/exp (log z))
       :else     (let [z  (dec z)
                       z' (+ z 0.5)
-                      t  (+ z' G)]
+                      t  (+ z' 7)]
                   (* (* (* (Math/sqrt TWO_PI)
                            (Math/pow t z'))
                         (Math/exp (- t)))
-                     (p-sum P (+ G 2) z)))))
+                     (p-sum P 9 z)))))
 #+END_SRC
 
 ** Complete namespace definition
