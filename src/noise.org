@@ -18,6 +18,8 @@
 
 *** Gradient noise generators
 
+Based on: [[https://developer.apple.com/library/mac/samplecode/OpenCL_Procedural_Grass_and_Terrain_Example/Listings/terrain_kernels_cl.html][OpenCL terrain kernels]]
+
 #+BEGIN_SRC clojure :noweb-ref generators
   (defn noise1
     [x]

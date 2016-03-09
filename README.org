@@ -63,7 +63,7 @@ compatible with Clojure versions < 1.7.0*...
 - [[./src/bits.org][thi.ng.math.bits]]
 - [[./src/gamma.org][thi.ng.math.gamma]]
 - [[./src/macros.org][thi.ng.math.macros]]
-- [[./src/simplexnoise.org][thi.ng.math.simplexnoise]]
+- [[./src/noise.org][thi.ng.math.noise]]
 
 * Tests
 - [[./test/core.org][thi.ng.math.test.core]]
