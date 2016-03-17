@@ -1,7 +1,7 @@
 #+SETUPFILE: setup.org
 
 * Contents                                                         :toc_4_gh:
- - [[#namespace-thingcommonmathnoise][Namespace: thi.ng.common.math.noise]]
+ - [[#namespace-thingmathnoise][Namespace: thi.ng.math.noise]]
      - [[#gradient-noise][Gradient noise]]
          - [[#gradient-noise-generators][Gradient noise generators]]
          - [[#constants--lookup-tables][Constants & lookup tables]]
@@ -9,7 +9,7 @@
      - [[#complete-namespace-definition][Complete namespace definition]]
      - [[#js-test-setup][JS test setup]]
 
-* Namespace: thi.ng.common.math.noise
+* Namespace: thi.ng.math.noise
 ** Gradient noise
 
 | [[../assets/gradient-noise-scales.png]]     | [[../assets/gradient-noise-octaves.png]]   |

@@ -8,8 +8,9 @@
 
 * Namespace: thi.ng.math.bits
 
-This namespace contains various useful bit manipulation functions
-ported from Sean Eron Anderson's great collection of bit hacks at:
+This namespace contains various useful 32bit integer bit manipulation
+functions ported from Sean Eron Anderson's great collection of bit
+hacks at:
 
 http://graphics.stanford.edu/~seander/bithacks.html
 
