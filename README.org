@@ -8,7 +8,6 @@
      - [[#description][Description]]
      - [[#leiningen-coordinates][Leiningen coordinates]]
          - [[#stable][Stable]]
-         - [[#latest-snapshot][Latest snapshot]]
  - [[#namespaces][Namespaces]]
  - [[#tests][Tests]]
  - [[#project-definition][Project definition]]
@@ -50,12 +49,7 @@ compatible with Clojure versions < 1.7.0*...
 ** Leiningen coordinates
 *** Stable
 #+BEGIN_SRC clojure :noweb yes
-  [thi.ng/math "0.1.4"]
-#+END_SRC
-
-*** Latest snapshot                                                :noexport:
-#+BEGIN_SRC clojure :noweb yes :noweb-ref lein-coords
-  [thi.ng/math "0.2.0-SNAPSHOT"]
+  [thi.ng/math "0.2.1"]
 #+END_SRC
 
 * Namespaces
@@ -73,7 +67,7 @@ compatible with Clojure versions < 1.7.0*...
 ** Injected properties                                             :noexport:
 
 #+BEGIN_SRC clojure :noweb-ref version
-0.2.0
+0.2.1
 #+END_SRC
 
 #+BEGIN_SRC clojure :exports none :noweb-ref project-url
@@ -97,7 +91,7 @@ target/math-<<version>>.js
 **** [[https://github.com/thi-ng/typedarrays/][thi.ng/typedarrays]]
 #+NAME: dep-tarrays
 #+BEGIN_SRC clojure
-[thi.ng/typedarrays "0.1.2"]
+[thi.ng/typedarrays "0.1.3"]
 #+END_SRC
 
 *** Development
@@ -221,7 +215,7 @@ symbol =version= holding the version string defined above:
   ; "<<version>>"
 #+END_SRC
 
-*** Version namespace                                              :noexport:
+*** Version namespace
 
 #+BEGIN_SRC clojure :tangle ./babel/src/thi/ng/math/version.cljc :noweb yes :mkdirp yes :padline no :exports none
   (ns thi.ng.math.version)
@@ -233,6 +227,7 @@ symbol =version= holding the version string defined above:
 
 | *Version* | *Released* | *Description*                            | *Lein coordinates*      | *Tagged Github URL* |
 |-----------+------------+------------------------------------------+-------------------------+---------------------|
+|     0.2.1 | 2016-03-19 | update typedarrays dependency            | =[thi.ng/math "0.2.1"]= | [[https://github.com/thi-ng/math/tree/0.2.1][0.2.1]]               |
 |     0.2.0 | 2016-03-17 | add protocols, minor refactorings        | =[thi.ng/math "0.2.0"]= | [[https://github.com/thi-ng/math/tree/0.2.0][0.2.0]]               |
 |     0.1.4 | 2015-06-17 | add interpolation fns, minor refactoring | =[thi.ng/math "0.1.4"]= | [[https://github.com/thi-ng/math/tree/0.1.4][0.1.4]]               |
 |     0.1.3 | 2015-06-08 | add interpolation fns                    | =[thi.ng/math "0.1.3"]= | [[https://github.com/thi-ng/math/tree/0.1.3][0.1.3]]               |
