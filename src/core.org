@@ -255,6 +255,8 @@ to math operations across several other [[http://thi.ng/][thi.ng]] projects, mos
          <<tpl-delta-eq>>
          Long
          <<tpl-delta-eq>>
+         clojure.lang.Ratio
+         <<tpl-delta-eq>>
          Float
          <<tpl-delta-eq>>
          Double]
