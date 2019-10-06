@@ -299,13 +299,15 @@ to math operations across several other [[http://thi.ng/][thi.ng]] projects, mos
     "Constraints x to be closed [min .. max] interval."
     [x min max] (if (< x min) min (if (> x max) max x)))
 
+  (defn clamp-normalized
+    "Constraints x to closed [0.0 .. 1.0] interval."
+    [x] (if (< x -1.0) -1.0 (if (> x 1.0) 1.0 x)))
+
   (defn clamp01
     "Constraints x to closed [0 .. 1] interval."
     [x] (if (< x 0.0) 0.0 (if (> x 1.0) 1.0 x)))
 
-  (defn clamp-normalized
-    "Constraints x to closed [0.0 .. 1.0] interval."
-    [x] (if (< x -1.0) -1.0 (if (> x 1.0) 1.0 x)))
+  (def clamp11 clamp-normalized)
 
   (defn map-interval
     "Maps x from one interval into another. Intervals can be defined as
