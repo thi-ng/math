@@ -49,7 +49,7 @@ compatible with Clojure versions < 1.7.0*...
 ** Leiningen coordinates
 *** Stable
 #+BEGIN_SRC clojure :noweb yes
-  [thi.ng/math "0.2.2-SNAPSHOT"]
+  [thi.ng/math "0.3.0"]
 #+END_SRC
 
 * Namespaces
@@ -67,7 +67,7 @@ compatible with Clojure versions < 1.7.0*...
 ** Injected properties                                             :noexport:
 
 #+BEGIN_SRC clojure :noweb-ref version
-0.2.2-SNAPSHOT
+0.3.0
 #+END_SRC
 
 #+BEGIN_SRC clojure :exports none :noweb-ref project-url

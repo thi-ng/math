@@ -244,7 +244,7 @@ to math operations across several other [[http://thi.ng/][thi.ng]] projects, mos
         false)))
 #+END_SRC
 
-#+BEGIN_SRC clojure :noweb-ref math
+#+BEGIN_SRC clojure :noweb-ref math :noweb yes
   (extend-protocol IDeltaEquals
     #?@(:clj
         [Byte
@@ -296,11 +296,15 @@ to math operations across several other [[http://thi.ng/][thi.ng]] projects, mos
 
 #+BEGIN_SRC clojure :noweb-ref math
   (defn clamp
-    "Constraints x to be in closed interval [min max]."
+    "Constraints x to be closed [min .. max] interval."
     [x min max] (if (< x min) min (if (> x max) max x)))
 
+  (defn clamp01
+    "Constraints x to closed [0 .. 1] interval."
+    [x] (if (< x 0.0) 0.0 (if (> x 1.0) 1.0 x)))
+
   (defn clamp-normalized
-    "Constraints x to be in closed interval [0.0 .. 1.0]"
+    "Constraints x to closed [0.0 .. 1.0] interval."
     [x] (if (< x -1.0) -1.0 (if (> x 1.0) 1.0 x)))
 
   (defn map-interval
