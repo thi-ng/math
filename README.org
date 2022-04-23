@@ -49,7 +49,7 @@ compatible with Clojure versions < 1.7.0*...
 ** Leiningen coordinates
 *** Stable
 #+BEGIN_SRC clojure :noweb yes
-  [thi.ng/math "0.3.0"]
+  [thi.ng/math "0.3.1"]
 #+END_SRC
 
 * Namespaces
@@ -67,7 +67,7 @@ compatible with Clojure versions < 1.7.0*...
 ** Injected properties                                             :noexport:
 
 #+BEGIN_SRC clojure :noweb-ref version
-0.3.0
+0.3.1
 #+END_SRC
 
 #+BEGIN_SRC clojure :exports none :noweb-ref project-url
@@ -82,22 +82,22 @@ target/math-<<version>>.js
 *** Runtime
 **** [[https://github.com/clojure/clojure][Clojure]]
 #+BEGIN_SRC clojure :noweb-ref dep-clj
-[org.clojure/clojure "1.9.0"]
+[org.clojure/clojure "1.11.1"]
 #+END_SRC
 **** [[https://github.com/clojure/clojurescript][ClojureScript]]
 #+BEGIN_SRC clojure :noweb-ref dep-cljs
-[org.clojure/clojurescript "1.10.238"]
+[org.clojure/clojurescript "1.11.4"]
 #+END_SRC
 **** [[https://github.com/thi-ng/typedarrays/][thi.ng/typedarrays]]
 #+NAME: dep-tarrays
 #+BEGIN_SRC clojure
-[thi.ng/typedarrays "0.1.3"]
+[thi.ng/typedarrays "0.1.7"]
 #+END_SRC
 
 *** Development
 **** [[https://github.com/hugoduncan/criterium][Criterium]]
 #+BEGIN_SRC clojure :noweb-ref dep-criterium
-[criterium "0.4.3"]
+[criterium "0.4.6"]
 #+END_SRC
 **** [[https://github.com/cemerick/clojurescript.test][clojurescript.test]]
 #+BEGIN_SRC clojure :noweb-ref dep-cljs-test
@@ -105,7 +105,7 @@ target/math-<<version>>.js
 #+END_SRC
 **** [[https://github.com/emezeske/lein-cljsbuild][Cljsbuild]]
 #+BEGIN_SRC clojure :noweb-ref dep-cljsbuild
-[lein-cljsbuild "1.1.7"]
+[lein-cljsbuild "1.1.8"]
 #+END_SRC
 
 ** Building this project
@@ -185,7 +185,7 @@ in the REPL via =(require 'thi.ng.math... :reload)= or similar.
     :pom-addition [:developers
                    [:developer
                     [:name "Karsten Schmidt"]
-                    [:url "http://postspectacular.com"]
+                    [:url "https://thi.ng"]
                     [:timezone "0"]]])
 #+END_SRC
 
@@ -227,6 +227,7 @@ symbol =version= holding the version string defined above:
 
 | *Version* | *Released* | *Description*                            | *Lein coordinates*      | *Tagged Github URL* |
 |-----------+------------+------------------------------------------+-------------------------+---------------------|
+|     0.3.1 | 2022-04-23 | update deps            | =[thi.ng/math "0.3.1"]= | [[https://github.com/thi-ng/math/tree/0.3.1][0.3.1]]               |
 |     0.2.1 | 2016-03-19 | update typedarrays dependency            | =[thi.ng/math "0.2.1"]= | [[https://github.com/thi-ng/math/tree/0.2.1][0.2.1]]               |
 |     0.2.0 | 2016-03-17 | add protocols, minor refactorings        | =[thi.ng/math "0.2.0"]= | [[https://github.com/thi-ng/math/tree/0.2.0][0.2.0]]               |
 |     0.1.4 | 2015-06-17 | add interpolation fns, minor refactoring | =[thi.ng/math "0.1.4"]= | [[https://github.com/thi-ng/math/tree/0.1.4][0.1.4]]               |
@@ -239,7 +240,7 @@ symbol =version= holding the version string defined above:
 
 | *Name*          | *Role*                          | *Website*                  |
 |-----------------+---------------------------------+----------------------------|
-| [[k@thi.ng][Karsten Schmidt]] | initiator & principal developer | http://postspectacular.com |
+| [[k@thi.ng][Karsten Schmidt]] | initiator & principal developer | https://thi.ng |
 
 I've got a fairly detailed roadmap and task list to implement over the
 coming months, but am always happy to receive feedback & suggestions
