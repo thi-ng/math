@@ -49,7 +49,7 @@ compatible with Clojure versions < 1.7.0*...
 ** Leiningen coordinates
 *** Stable
 #+BEGIN_SRC clojure :noweb yes
-  [thi.ng/math "0.3.1"]
+  [thi.ng/math "0.3.2"]
 #+END_SRC
 
 * Namespaces
@@ -67,7 +67,7 @@ compatible with Clojure versions < 1.7.0*...
 ** Injected properties                                             :noexport:
 
 #+BEGIN_SRC clojure :noweb-ref version
-0.3.1
+0.3.2
 #+END_SRC
 
 #+BEGIN_SRC clojure :exports none :noweb-ref project-url
@@ -86,7 +86,7 @@ target/math-<<version>>.js
 #+END_SRC
 **** [[https://github.com/clojure/clojurescript][ClojureScript]]
 #+BEGIN_SRC clojure :noweb-ref dep-cljs
-[org.clojure/clojurescript "1.11.54"]
+[org.clojure/clojurescript "1.11.121"]
 #+END_SRC
 **** [[https://github.com/thi-ng/typedarrays/][thi.ng/typedarrays]]
 #+NAME: dep-tarrays
@@ -227,7 +227,8 @@ symbol =version= holding the version string defined above:
 
 | *Version* | *Released* | *Description*                            | *Lein coordinates*      | *Tagged Github URL* |
 |-----------+------------+------------------------------------------+-------------------------+---------------------|
-|     0.3.1 | 2022-04-23 | update deps            | =[thi.ng/math "0.3.1"]= | [[https://github.com/thi-ng/math/tree/0.3.1][0.3.1]]               |
+|     0.3.2 | 2023-10-23 | remove shadow warnings (#3)              | =[thi.ng/math "0.3.2"]= | [[https://github.com/thi-ng/math/tree/0.3.2][0.3.2]]               |
+|     0.3.1 | 2022-04-23 | update deps                              | =[thi.ng/math "0.3.1"]= | [[https://github.com/thi-ng/math/tree/0.3.1][0.3.1]]               |
 |     0.2.1 | 2016-03-19 | update typedarrays dependency            | =[thi.ng/math "0.2.1"]= | [[https://github.com/thi-ng/math/tree/0.2.1][0.2.1]]               |
 |     0.2.0 | 2016-03-17 | add protocols, minor refactorings        | =[thi.ng/math "0.2.0"]= | [[https://github.com/thi-ng/math/tree/0.2.0][0.2.0]]               |
 |     0.1.4 | 2015-06-17 | add interpolation fns, minor refactoring | =[thi.ng/math "0.1.4"]= | [[https://github.com/thi-ng/math/tree/0.1.4][0.1.4]]               |
@@ -240,7 +241,8 @@ symbol =version= holding the version string defined above:
 
 | *Name*          | *Role*                          | *Website*                  |
 |-----------------+---------------------------------+----------------------------|
-| [[k@thi.ng][Karsten Schmidt]] | initiator & principal developer | https://thi.ng |
+| [[@postspectacular][Karsten Schmidt]] | initiator & principal developer | https://thi.ng |
+| [[@dgtized][Charles Comstock]] | bug fixes | https://dgtized.github.io/ |
 
 I've got a fairly detailed roadmap and task list to implement over the
 coming months, but am always happy to receive feedback & suggestions
