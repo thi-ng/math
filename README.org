@@ -86,7 +86,7 @@ target/math-<<version>>.js
 #+END_SRC
 **** [[https://github.com/clojure/clojurescript][ClojureScript]]
 #+BEGIN_SRC clojure :noweb-ref dep-cljs
-[org.clojure/clojurescript "1.11.4"]
+[org.clojure/clojurescript "1.11.54"]
 #+END_SRC
 **** [[https://github.com/thi-ng/typedarrays/][thi.ng/typedarrays]]
 #+NAME: dep-tarrays

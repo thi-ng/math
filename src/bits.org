@@ -177,7 +177,7 @@ http://graphics.stanford.edu/~seander/bithacks.html
 
 #+BEGIN_SRC clojure :tangle ../babel/src/thi/ng/math/bits.cljc :noweb yes :mkdirp yes :padline no
   (ns thi.ng.math.bits
-    (:refer-clojure :exclude [bit-count]))
+    (:refer-clojure :exclude [abs bit-count]))
 
   <<const>>
 
